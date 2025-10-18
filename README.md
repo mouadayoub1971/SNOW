@@ -1,4 +1,4 @@
-# Valyrion RAG - Dragon-Powered Financial Research with Massive RAG
+# Valyrion CLI - Dragon-Powered Financial Research with Massive RAG
 
 A comprehensive Retrieval-Augmented Generation (RAG) system for financial research, deployed on AWS with Terraform.
 
