@@ -2,17 +2,17 @@ from typing import List
 
 from langchain_core.messages import AIMessage
 
-from dexter.model import call_llm
-from dexter.prompts import (
+from valyrion.model import call_llm
+from valyrion.prompts import (
     ACTION_SYSTEM_PROMPT,
     ANSWER_SYSTEM_PROMPT,
     PLANNING_SYSTEM_PROMPT,
     VALIDATION_SYSTEM_PROMPT,
 )
-from dexter.schemas import Answer, IsDone, Task, TaskList
-from dexter.tools import TOOLS
-from dexter.utils.logger import Logger
-from dexter.utils.ui import show_progress
+from valyrion.schemas import Answer, IsDone, Task, TaskList
+from valyrion.tools import TOOLS
+from valyrion.utils.logger import Logger
+from valyrion.utils.ui import show_progress
 
 
 class Agent:

@@ -7,11 +7,12 @@ from functools import wraps
 
 
 class Colors:
-    BLUE = "\033[94m"
-    CYAN = "\033[96m"
+    RED = "\033[91m"
+    GOLD = "\033[93m"
     GREEN = "\033[92m"
     YELLOW = "\033[93m"
-    RED = "\033[91m"
+    BLUE = "\033[94m"  # Keep for backwards compatibility
+    CYAN = "\033[96m"  # Keep for backwards compatibility
     MAGENTA = "\033[95m"
     ENDC = "\033[0m"
     BOLD = "\033[1m"
@@ -24,7 +25,7 @@ class Spinner:
     
     FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
     
-    def __init__(self, message: str = "", color: str = Colors.CYAN):
+    def __init__(self, message: str = "", color: str = Colors.GOLD):
         self.message = message
         self.color = color
         self.running = False
@@ -69,7 +70,7 @@ def show_progress(message: str, success_message: str = ""):
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
-            spinner = Spinner(message, color=Colors.CYAN)
+            spinner = Spinner(message, color=Colors.GOLD)
             spinner.start()
             try:
                 result = func(*args, **kwargs)
@@ -91,7 +92,7 @@ class UI:
     @contextmanager
     def progress(self, message: str, success_message: str = ""):
         """Context manager for showing progress with a spinner."""
-        spinner = Spinner(message, color=Colors.CYAN)
+        spinner = Spinner(message, color=Colors.GOLD)
         self.current_spinner = spinner
         spinner.start()
         try:
@@ -105,8 +106,8 @@ class UI:
     
     def print_header(self, text: str):
         """Print a section header."""
-        print(f"\n{Colors.BOLD}{Colors.BLUE}╭─ {text}{Colors.ENDC}")
-    
+        print(f"\n{Colors.BOLD}{Colors.RED}🔥 ╭─ {text}{Colors.ENDC}")
+
     def print_task_list(self, tasks):
         """Print a clean list of planned tasks."""
         if not tasks:
@@ -116,13 +117,13 @@ class UI:
             status = "+"
             color = Colors.DIM
             desc = task.get('description', task)
-            print(f"{Colors.BLUE}│{Colors.ENDC} {color}{status}{Colors.ENDC} {desc}")
-        print(f"{Colors.BLUE}╰{'─' * 50}{Colors.ENDC}\n")
-    
+            print(f"{Colors.RED}│{Colors.ENDC} {color}{status}{Colors.ENDC} {desc}")
+        print(f"{Colors.RED}╰{'─' * 50}{Colors.ENDC}\n")
+
     def print_task_start(self, task_desc: str):
         """Print when starting a task."""
-        print(f"\n{Colors.BOLD}{Colors.CYAN}▶ Task:{Colors.ENDC} {task_desc}")
-    
+        print(f"\n{Colors.BOLD}{Colors.GOLD}▶ Task:{Colors.ENDC} {task_desc}")
+
     def print_task_done(self, task_desc: str):
         """Print when a task is completed."""
         print(f"{Colors.GREEN}  ✓ Completed{Colors.ENDC} {Colors.DIM}│ {task_desc}{Colors.ENDC}")
@@ -135,23 +136,23 @@ class UI:
     def print_answer(self, answer: str):
         """Print the final answer in a beautiful box."""
         width = 80
-        
+
         # Top border
-        print(f"\n{Colors.BOLD}{Colors.BLUE}╔{'═' * (width - 2)}╗{Colors.ENDC}")
-        
+        print(f"\n{Colors.BOLD}{Colors.RED}╔{'═' * (width - 2)}╗{Colors.ENDC}")
+
         # Title
         title = "ANSWER"
         padding = (width - len(title) - 2) // 2
-        print(f"{Colors.BOLD}{Colors.BLUE}║{' ' * padding}{title}{' ' * (width - len(title) - padding - 2)}║{Colors.ENDC}")
-        
+        print(f"{Colors.BOLD}{Colors.RED}║{' ' * padding}{title}{' ' * (width - len(title) - padding - 2)}║{Colors.ENDC}")
+
         # Separator
-        print(f"{Colors.BLUE}╠{'═' * (width - 2)}╣{Colors.ENDC}")
-        
+        print(f"{Colors.RED}╠{'═' * (width - 2)}╣{Colors.ENDC}")
+
         # Answer content with proper line wrapping
-        print(f"{Colors.BLUE}║{Colors.ENDC}{' ' * (width - 2)}{Colors.BLUE}║{Colors.ENDC}")
+        print(f"{Colors.RED}║{Colors.ENDC}{' ' * (width - 2)}{Colors.RED}║{Colors.ENDC}")
         for line in answer.split('\n'):
             if len(line) == 0:
-                print(f"{Colors.BLUE}║{Colors.ENDC}{' ' * (width - 2)}{Colors.BLUE}║{Colors.ENDC}")
+                print(f"{Colors.RED}║{Colors.ENDC}{' ' * (width - 2)}{Colors.RED}║{Colors.ENDC}")
             else:
                 # Word wrap long lines
                 words = line.split()
@@ -161,15 +162,15 @@ class UI:
                         current_line += word + " "
                     else:
                         if current_line:
-                            print(f"{Colors.BLUE}║{Colors.ENDC} {current_line.ljust(width - 4)} {Colors.BLUE}║{Colors.ENDC}")
+                            print(f"{Colors.RED}║{Colors.ENDC} {current_line.ljust(width - 4)} {Colors.RED}║{Colors.ENDC}")
                         current_line = word + " "
                 if current_line:
-                    print(f"{Colors.BLUE}║{Colors.ENDC} {current_line.ljust(width - 4)} {Colors.BLUE}║{Colors.ENDC}")
-        
-        print(f"{Colors.BLUE}║{Colors.ENDC}{' ' * (width - 2)}{Colors.BLUE}║{Colors.ENDC}")
-        
+                    print(f"{Colors.RED}║{Colors.ENDC} {current_line.ljust(width - 4)} {Colors.RED}║{Colors.ENDC}")
+
+        print(f"{Colors.RED}║{Colors.ENDC}{' ' * (width - 2)}{Colors.RED}║{Colors.ENDC}")
+
         # Bottom border
-        print(f"{Colors.BOLD}{Colors.BLUE}╚{'═' * (width - 2)}╝{Colors.ENDC}\n")
+        print(f"{Colors.BOLD}{Colors.RED}╚{'═' * (width - 2)}╝{Colors.ENDC}\n")
     
     def print_info(self, message: str):
         """Print an info message."""
